@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+    {% set successMessages = app.flashes('success') %}
+
+    {% if successMessages is not empty %}
+        <div class="alert_success" role="alert">
+            {{ successMessages[0] }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+
+    <div class="content">
+        <div class="menu">
+            <a href="{{ path('app_cart') }}" class="cart_btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+        </div>
+
+        {% for product in products %}
+            <div id="{{ product.id }}" class="book">
+                <p>Nazwa: {{ product.name }}</p>
+                <p>Autor: {{ product.author }}</p>
+                <p>Cena: {{ product.price }} zł</p>
+                <form action="{{ path('add_to_cart', {'id': product.id}) }}" method="post">
+                    <label for="quantity"></label>
+                    <input id="quantity" name="quantity" type="number" value="1" class="price">
+                    <div class="button_container">
+                        <button type="submit" class="add_to_cart_btn">Dodaj do koszyka</button>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    <script src="{{ asset('js/flashMassage.js') }}"></script>
+{% endblock %}
